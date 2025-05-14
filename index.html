@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego de los 5 Porqués</title>
+    <title>Juego de los 5 Porqués - YPFB</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -38,6 +38,15 @@
             flex-direction: column;
             color: var(--text-color);
             line-height: 1.6;
+        }
+        
+        #rootCausesChart {
+            max-width: 500px;
+            max-height: 500px;
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
         }
 
         .container {
@@ -528,7 +537,7 @@
 
         .chart-container {
             width: 100%;
-            height: 300px;
+            height: 500px;
             position: relative;
             margin-top: 20px;
         }
@@ -687,16 +696,23 @@
             background: var(--grey-bg);
             border-left: 5px solid var(--primary-color);
             padding: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             border-radius: 0 var(--border-radius) var(--border-radius) 0;
         }
 
         .instruction-card h3 {
             color: var(--primary-color);
-            margin-bottom: 10px;
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
             gap: 10px;
+        }
+
+        .instruction-card ol {
+            margin-bottom: 10px;
+            
+            color: var(--text-color);
+            border-left: 19px;
         }
 
         .scroll-to-top {
@@ -1066,7 +1082,7 @@
                 <div class="dashboard-card">
                     <h3><i class="fas fa-project-diagram"></i> Mapa de Causas Raíz</h3>
                     <div class="chart-container">
-                        <canvas id="rootCausesChart"></canvas>
+                        <canvas id="rootCausesChart" width="400" height="100"></canvas>
                     </div>
                 </div>
                 
