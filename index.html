@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de los 5 Porqués - PIL Andina</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #e0e7ff, #fff);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        h1 {
+            text-align: center;
+            color: #003087; /* Azul de PIL Andina */
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        .problem-card {
+            background: #d32f2f; /* Rojo de PIL Andina */
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            animation: slideIn 0.5s ease;
+        }
+        .form-card {
+            background: #e0e7ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+        .form-card:hover {
+            transform: translateY(-5px);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            color: #003087;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #003087;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+        input[type="text"]:focus {
+            border-color: #d32f2f;
+            outline: none;
+        }
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .progress-dot {
+            width: 20px;
+            height: 20px;
+            background: #ccc;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+        }
+        .progress-dot.active {
+            background: #d32f2f;
+        }
+        button {
+            background: #003087;
+            color: #fff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            display: block;
+            margin: 20px auto;
+            transition: transform 0.2s ease, background 0.3s ease;
+        }
+        button:hover {
+            background: #00205b;
+            transform: scale(1.05);
+        }
+        .results {
+            display: none;
+            margin-top: 30px;
+        }
+        .results-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease;
+        }
+        .results-card h3 {
+            color: #d32f2f;
+            margin-bottom: 15px;
+        }
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .answer-card {
+            background: #e0e7ff;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .answer-card:hover {
+            transform: translateY(-5px);
+        }
+        .common-points {
+            background: #d32f2f;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            animation: slideIn 0.5s ease;
+        }
+        .reset-btn {
+            background: #555;
+        }
+        .reset-btn:hover {
+            background: #333;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            .problem-card, .form-card, .results-card {
+                padding: 15px;
+            }
+            button {
+                font-size: 1em;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎉 Juego de los 5 Porqués - "Yacimientos Petrolíferos Fiscales Bolivianos (YPFB)"  🎉 </h1>
+        <div class="problem-card">
+            Problema: Hay un retraso constante en el inicio de proyectos para industrializar el gas natural,
+             como las plantas de urea y amoniaco, en Yacimientos Petrolíferos Fiscales Bolivianos (YPFB). 
+             Este problema se debe a decisiones políticas sobre quiénes ocupan los puestos de gerencia,
+              procesos de licitación poco claros y una burocracia interna excesiva. Como resultado, 
+              importantes inversiones del Estado quedan sin usar, lo que retrasa la generación de ingresos 
+              por la exportación de productos que podrían tener un mayor valor agregado.
+        </div>
+        <div class="progress-bar">
+            <div class="progress-dot active"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+        </div>
+        <div class="form-card">
+            <div class="form-group">
+                <label for="playerName">👤 Nombre del participante:</label>
+                <input type="text" id="playerName" placeholder="Ingresa tu nombre">
+            </div>
+            <div class="form-group">
+                <label for="why1">1️⃣ ¿Por qué se retrasa la puesta en marcha de los proyectos de industrialización de gas natural en YPFB?</label>
+                <input type="text" id="why1" placeholder="Escribe tu respuesta">
+            </div>
+            <div class="form-group">
+                <label for="why2">2️⃣ ¿Por qué ocurre lo que escribiste arriba?</label>
+                <input type="text" id="why2" placeholder="Escribe tu respuesta">
+            </div>
+            <div class="form-group">
+                <label for="why3">3️⃣ ¿Por qué ocurre lo que escribiste arriba?</label>
+                <input type="text" id="why3" placeholder="Escribe tu respuesta">
+            </div>
+            <div class="form-group">
+                <label for="why4">4️⃣ ¿Por qué ocurre lo que escribiste arriba?</label>
+                <input type="text" id="why4" placeholder="Escribe tu respuesta">
+            </div>
+            <div class="form-group">
+                <label for="why5">5️⃣ ¿Por qué ocurre lo que escribiste arriba?</label>
+                <input type="text" id="why5" placeholder="Escribe tu respuesta">
+            </div>
+            <button onclick="submitAnswers()">🚀 Enviar Respuestas</button>
+        </div>
+        <div class="results" id="results">
+            <div class="results-card">
+                <h3>📊 Respuestas de los Participantes</h3>
+                <div class="results-grid" id="resultsGrid"></div>
+            </div>
+            <div class="common-points" id="commonPoints"></div>
+            <button class="reset-btn" onclick="resetGame()">🔄 Reiniciar Juego</button>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        let participants = [];
+        const SIMILARITY_THRESHOLD = 3; // Máxima distancia de Levenshtein para considerar respuestas similares
+
+        function submitAnswers() {
+            const playerName = document.getElementById('playerName').value.trim();
+            const why1 = document.getElementById('why1').value.trim();
+            const why2 = document.getElementById('why2').value.trim();
+            const why3 = document.getElementById('why3').value.trim();
+            const why4 = document.getElementById('why4').value.trim();
+            const why5 = document.getElementById('why5').value.trim();
+
+            if (!playerName || !why1 || !why2 || !why3 || !why4 || !why5) {
+                alert('¡Por favor, completa todos los campos para continuar! 😊');
+                return;
+            }
+
+            participants.push({
+                name: playerName,
+                answers: [why1, why2, why3, why4, why5]
+            });
+
+            updateResults();
+            clearForm();
+            triggerConfetti();
+        }
+
+        function updateResults() {
+            const resultsGrid = document.getElementById('resultsGrid');
+            resultsGrid.innerHTML = '';
+
+            participants.forEach(participant => {
+                const card = document.createElement('div');
+                card.className = 'answer-card';
+                card.innerHTML = `
+                    <h4>${participant.name}</h4>
+                    <p><strong>1️⃣</strong> ${participant.answers[0]}</p>
+                    <p><strong>2️⃣</strong> ${participant.answers[1]}</p>
+                    <p><strong>3️⃣</strong> ${participant.answers[2]}</p>
+                    <p><strong>4️⃣</strong> ${participant.answers[3]}</p>
+                    <p><strong>5️⃣</strong> ${participant.answers[4]}</p>
+                `;
+                resultsGrid.appendChild(card);
+            });
+
+            const commonPoints = findCommonPoints();
+            document.getElementById('commonPoints').innerHTML = `
+                <h3>🎯 Puntos en común:</h3>
+                ${commonPoints.length > 0 ? commonPoints.map(p => `<p>${p}</p>`).join('') : 'No se encontraron puntos en común. ¡Sigan pensando! 😄'}
+            `;
+
+            document.getElementById('results').style.display = 'block';
+        }
+
+        function findCommonPoints() {
+            const allAnswers = participants.flatMap(p => p.answers);
+            const similarAnswers = {};
+
+            allAnswers.forEach((answer, index) => {
+                allAnswers.forEach((otherAnswer, otherIndex) => {
+                    if (index !== otherIndex && isSimilar(answer, otherAnswer)) {
+                        similarAnswers[answer] = similarAnswers[answer] || [];
+                        if (!similarAnswers[answer].includes(otherAnswer)) {
+                            similarAnswers[answer].push(otherAnswer);
+                        }
+                    }
+                });
+            });
+
+            return Object.keys(similarAnswers).map(answer => {
+                return `${answer} (similar a: ${similarAnswers[answer].join(', ')})`;
+            });
+        }
+
+        function isSimilar(answer1, answer2) {
+            return levenshtein(answer1.toLowerCase(), answer2.toLowerCase()) <= SIMILARITY_THRESHOLD;
+        }
+
+        function levenshtein(a, b) {
+            const matrix = Array.from({ length: a.length + 1 }, () => Array(b.length + 1).fill(0));
+
+            for (let i = 0; i <= a.length; i++) matrix[i][0] = i;
+            for (let j = 0; j <= b.length; j++) matrix[0][j] = j;
+
+            for (let i = 1; i <= a.length; i++) {
+                for (let j = 1; j <= b.length; j++) {
+                    const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+                    matrix[i][j] = Math.min(
+                        matrix[i - 1][j] + 1, // Eliminación
+                        matrix[i][j - 1] + 1, // Inserción
+                        matrix[i - 1][j - 1] + cost // Sustitución
+                    );
+                }
+            }
+
+            return matrix[a.length][b.length];
+        }
+
+        function clearForm() {
+            document.getElementById('playerName').value = '';
+            document.getElementById('why1').value = '';
+            document.getElementById('why2').value = '';
+            document.getElementById('why3').value = '';
+            document.getElementById('why4').value = '';
+            document.getElementById('why5').value = '';
+            updateProgressBar(1);
+        }
+
+        function resetGame() {
+            participants = [];
+            document.getElementById('resultsGrid').innerHTML = '';
+            document.getElementById('commonPoints').innerHTML = '';
+            document.getElementById('results').style.display = 'none';
+            clearForm();
+        }
+
+        function triggerConfetti() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#003087', '#d32f2f', '#ffffff']
+            });
+        }
+
+        // Update progress bar on input
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', () => {
+                const filledInputs = Array.from(document.querySelectorAll('input[type="text"]')).filter(i => i.value.trim() !== '');
+                updateProgressBar(filledInputs.length);
+            });
+        });
+    </script>
+</body>
+</html>
